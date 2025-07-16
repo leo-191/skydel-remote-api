@@ -191,6 +191,13 @@ class Ecef:
         self.z = z
 
     def toLla(self) -> Lla:
+        """Convert the ECEF coordinate point into an LLA coordinate point
+
+        Returns
+        -------
+        Lla
+            The converted coordinates in LLA format.
+        """
         dist_to_z = math.sqrt(self.x * self.x + self.y * self.y)
         lat = math.atan2(self.z, (1 - EECC_SQUARED) * dist_to_z)
         for i in range(1, 5):

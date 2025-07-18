@@ -85,7 +85,9 @@ class CommandBase:
     CmdTimestampKey = "CmdTimestamp"
     CmdTargetId = "CmdTargetId"
 
-    def __init__(self, cmd_name: str, target_id: Optional[str] = None) -> None:
+    def __init__(
+        self, cmd_name: Optional[str] = None, target_id: Optional[str] = None
+    ) -> None:
         self.values = {}
         if cmd_name:
             self.values[CommandBase.CmdNameKey] = cmd_name
@@ -96,7 +98,7 @@ class CommandBase:
     def executePermission(self) -> "ExecutePermission":
         return ExecutePermission.EXECUTE_IF_IDLE
 
-    #TODO: unknown flags
+    # TODO: unknown flags
     def hasExecutePermission(self, flags) -> bool:
         return (self.executePermission() & flags) == flags
 
@@ -131,5 +133,5 @@ class CommandBase:
                 cmdStr += key + ": " + str(value) + ", "
         return cmdStr[:-2] + ")"
 
-    def deprecated(self) -> None:
+    def deprecated(self) -> Optional[str]:
         return None

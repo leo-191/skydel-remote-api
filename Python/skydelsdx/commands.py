@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-from .commandbase import CommandBase
+from enum import IntFlag
+
+from .commandbase import CommandBase, ExecutePermission
 from .commandresult import CommandResult
-from .commandbase import ExecutePermission
 
 ApiVersion = 48
 
@@ -9,7 +10,7 @@ ApiVersion = 48
 # The GPS AS flag value.
 #
 
-class GpsASFlag:
+class GpsASFlag(IntFlag):
   On = 0
   Off = 1
   Auto = 2
@@ -18,7 +19,7 @@ class GpsASFlag:
 # The simulator state.
 #
 
-class SimulatorState:
+class SimulatorState(IntFlag):
   StateNone = 0
   StateIdle = 1
   StateStarted = 2
@@ -28,7 +29,7 @@ class SimulatorState:
 # The simulator sub-state.
 #
 
-class SimulatorSubState:
+class SimulatorSubState(IntFlag):
   SubStateNone = 0
   Idle_ConfigNotValid = 1
   Idle_ConfigValid = 2
@@ -52,7 +53,7 @@ class SimulatorSubState:
 # The Parity scheme used by a serial port.
 #
 
-class SerialPortParity:
+class SerialPortParity(IntFlag):
   NoParity = 0
   Even = 1
   Odd = 2
@@ -63,7 +64,7 @@ class SerialPortParity:
 # The flow control used by a serial port.
 #
 
-class SerialPortFlowControl:
+class SerialPortFlowControl(IntFlag):
   NoFlowControl = 0
   Hardware = 1
   Software = 2
@@ -1345,7 +1346,7 @@ class ResetManualPowerOffsets(CommandBase):
 
 #
 # Please note the command ResetAllSatPower is deprecated since 21.7. You may use ResetManualPowerOffsets.
-# 
+#
 # Reset power offset for all satellites is specified system to default value
 #
 # Name   Type   Description
@@ -3543,7 +3544,7 @@ class EnableMainInstanceSync(CommandBase):
 
 #
 # Please note the command EnableMasterPps is deprecated since 23.11. You may use EnableMainInstanceSync.
-# 
+#
 # Enable/Disable Time Synchronization on main instance.
 # The main instance will control other Skydel simulators with main instance PPS Enabled.
 #
@@ -3645,7 +3646,7 @@ class EnableWorkerInstanceSync(CommandBase):
 
 #
 # Please note the command EnableSlavePps is deprecated since 23.11. You may use EnableWorkerInstanceSync.
-# 
+#
 # Enable/Disable Time Synchronization on worker instance.
 # The worker instance will wait for the main instance to synchronize the simulators.
 #
@@ -4771,7 +4772,7 @@ class SetGpsConfigurationForEachSV(CommandBase):
 
 #
 # Please note the command SetGpsSVConfigurationForAllSat is deprecated since 21.3. You may use SetGpsConfigurationForEachSV.
-# 
+#
 # Set GPS SV configuration flag for each SVs
 #
 # Name        Type            Description
@@ -4827,7 +4828,7 @@ class GetGpsConfigurationForEachSV(CommandBase):
 
 #
 # Please note the command GetGpsSVConfigurationForAllSat is deprecated since 21.3. You may use GetGpsConfigurationForEachSV.
-# 
+#
 # Get GPS SV configuration flag for each SVs
 #
 # Name        Type            Description
@@ -6775,7 +6776,7 @@ class SetQzssL1DataHealthForSV(CommandBase):
 
 #
 # Please note the command SetQzssSatelliteL1DataHealth is deprecated since 21.3. You may use SetQzssL1DataHealthForSV.
-# 
+#
 # Set QZSS L1 C/A nav data health
 #
 # Name        Type            Description
@@ -6847,7 +6848,7 @@ class GetQzssL1DataHealthForSV(CommandBase):
 
 #
 # Please note the command GetQzssSatelliteL1DataHealth is deprecated since 21.3. You may use GetQzssL1DataHealthForSV.
-# 
+#
 # Get QZSS L1 C/A nav data health
 #
 # Name        Type            Description
@@ -6958,7 +6959,7 @@ class SetQzssL1HealthForSV(CommandBase):
 
 #
 # Please note the command SetQzssSatelliteL1Health is deprecated since 21.3. You may use SetQzssL1HealthForSV.
-# 
+#
 # Set QZSS L1 health (Health of L1C/A signal)
 #
 # Name        Type            Description
@@ -7030,7 +7031,7 @@ class GetQzssL1HealthForSV(CommandBase):
 
 #
 # Please note the command GetQzssSatelliteL1Health is deprecated since 21.3. You may use GetQzssL1HealthForSV.
-# 
+#
 # Get QZSS L1 health (Health of L1C/A signal)
 #
 # Name        Type            Description
@@ -7141,7 +7142,7 @@ class SetQzssL2HealthForSV(CommandBase):
 
 #
 # Please note the command SetQzssSatelliteL2Health is deprecated since 21.3. You may use SetQzssL2HealthForSV.
-# 
+#
 # Set QZSS L2 health (Health of L2C signal)
 #
 # Name        Type            Description
@@ -7213,7 +7214,7 @@ class GetQzssL2HealthForSV(CommandBase):
 
 #
 # Please note the command GetQzssSatelliteL2Health is deprecated since 21.3. You may use GetQzssL2HealthForSV.
-# 
+#
 # Get QZSS L2 health (Health of L2C signal)
 #
 # Name        Type            Description
@@ -7324,7 +7325,7 @@ class SetQzssL5HealthForSV(CommandBase):
 
 #
 # Please note the command SetQzssSatelliteL5Health is deprecated since 21.3. You may use SetQzssL5HealthForSV.
-# 
+#
 # Set QZSS L5 health (Health of L5 signal)
 #
 # Name        Type            Description
@@ -7396,7 +7397,7 @@ class GetQzssL5HealthForSV(CommandBase):
 
 #
 # Please note the command GetQzssSatelliteL5Health is deprecated since 21.3. You may use GetQzssL5HealthForSV.
-# 
+#
 # Get QZSS L5 health (Health of L5 signal)
 #
 # Name        Type            Description
@@ -7507,7 +7508,7 @@ class SetQzssL1cHealthForSV(CommandBase):
 
 #
 # Please note the command SetQzssSatelliteL1cHealth is deprecated since 21.3. You may use SetQzssL1cHealthForSV.
-# 
+#
 # Set QZSS L1C health (Health of L1C signal)
 #
 # Name        Type            Description
@@ -7579,7 +7580,7 @@ class GetQzssL1cHealthForSV(CommandBase):
 
 #
 # Please note the command GetQzssSatelliteL1cHealth is deprecated since 21.3. You may use GetQzssL1cHealthForSV.
-# 
+#
 # Get QZSS L1C health (Health of L1C signal)
 #
 # Name        Type            Description
@@ -7799,7 +7800,7 @@ class SetQzssNavAlertFlagForSV(CommandBase):
 
 #
 # Please note the command SetQzssSatelliteNavAlertFlag is deprecated since 21.3. You may use SetQzssNavAlertFlagForSV.
-# 
+#
 # Set QZSS NAV Alert Flag
 #
 # Name        Type            Description
@@ -7871,7 +7872,7 @@ class GetQzssNavAlertFlagForSV(CommandBase):
 
 #
 # Please note the command GetQzssSatelliteNavAlertFlag is deprecated since 21.3. You may use GetQzssNavAlertFlagForSV.
-# 
+#
 # Get QZSS NAV Alert Flag
 #
 # Name        Type            Description
@@ -8091,7 +8092,7 @@ class SetNavICL5HealthForSV(CommandBase):
 
 #
 # Please note the command SetNavICSatelliteL5Health is deprecated since 21.3. You may use SetNavICL5HealthForSV.
-# 
+#
 # Set NavIC L5 health (Health of L5 signal)
 #
 # Name        Type            Description
@@ -8163,7 +8164,7 @@ class GetNavICL5HealthForSV(CommandBase):
 
 #
 # Please note the command GetNavICSatelliteL5Health is deprecated since 21.3. You may use GetNavICL5HealthForSV.
-# 
+#
 # Get NavIC L5 health (Health of L5 signal)
 #
 # Name        Type            Description
@@ -8383,7 +8384,7 @@ class SetNavICNavAlertFlagForSV(CommandBase):
 
 #
 # Please note the command SetNavICSatelliteNavAlertFlag is deprecated since 21.3. You may use SetNavICNavAlertFlagForSV.
-# 
+#
 # Set NavIC NAV Alert Flag
 #
 # Name        Type            Description
@@ -8455,7 +8456,7 @@ class GetNavICNavAlertFlagForSV(CommandBase):
 
 #
 # Please note the command GetNavICSatelliteNavAlertFlag is deprecated since 21.3. You may use GetNavICNavAlertFlagForSV.
-# 
+#
 # Get NavIC NAV Alert Flag
 #
 # Name        Type            Description
@@ -8986,7 +8987,7 @@ class SetGlobalPowerOffset(CommandBase):
 
 #
 # Please note the command SetPowerGlobalOffset is deprecated since 21.7. You may use SetGlobalPowerOffset.
-# 
+#
 # Set global power offset default value for all signals and all systems
 #
 # Name   Type   Description
@@ -9024,7 +9025,7 @@ class GetGlobalPowerOffset(CommandBase):
 
 #
 # Please note the command GetPowerGlobalOffset is deprecated since 21.7. You may use GetGlobalPowerOffset.
-# 
+#
 # Get global power offset default value for all signals and all systems
 #
 #
@@ -9097,7 +9098,7 @@ class SetSignalPowerOffset(CommandBase):
 
 #
 # Please note the command SetPowerOffset is deprecated since 21.7. You may use SetSignalPowerOffset.
-# 
+#
 # Set power offset default value for the signal given in argument
 #
 # Name   Type   Description
@@ -9161,7 +9162,7 @@ class GetSignalPowerOffset(CommandBase):
 
 #
 # Please note the command GetPowerOffset is deprecated since 21.7. You may use GetSignalPowerOffset.
-# 
+#
 # Get power offset default value for the signal given in argument
 #
 # Name   Type   Description
@@ -14904,7 +14905,7 @@ class SetEphemerisReferenceTimeForSV(CommandBase):
 
 #
 # Please note the command SetEphemerisReferenceTime is deprecated since 21.3. You may use SetEphemerisReferenceTimeForSV.
-# 
+#
 # Set the ephemeris reference time for the specified constellation.
 #
 # Name        Type            Description
@@ -14992,7 +14993,7 @@ class GetEphemerisReferenceTimeForSV(CommandBase):
 
 #
 # Please note the command GetEphemerisReferenceTime is deprecated since 21.3. You may use GetEphemerisReferenceTimeForSV.
-# 
+#
 # Get the ephemeris reference time for the specified constellation.
 #
 # Name        Type            Description
@@ -15080,7 +15081,7 @@ class GetEphemerisReferenceTimeForSVResult(CommandResult):
 
 #
 # Set various parameters for GLONASS
-# 
+#
 #   ParamName       Unit               Range          Description
 #   "TauC"          sec                +/- 1          GLONASS time scale correction to UTC(SU) time
 #   "TauGps"        day                +/- 1.9x10^-3  Correction to GPS time relative to GLONASS time
@@ -15131,7 +15132,7 @@ class SetGlonassEphDoubleParamForSV(CommandBase):
 
 #
 # Get various parameters for GLONASS
-# 
+#
 #   ParamName       Unit               Range          Description
 #   "TauC"          sec                +/- 1          GLONASS time scale correction to UTC(SU) time
 #   "TauGps"        day                +/- 1.9x10^-3  Correction to GPS time relative to GLONASS time
@@ -15244,7 +15245,7 @@ class SetGlonassEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command SetGlonassDoubleParams is deprecated since 21.3. You may use SetGlonassEphDoubleParamForEachSV.
-# 
+#
 # Set GLONASS parameter value for all satellites
 #
 # Name      Type         Description
@@ -15300,7 +15301,7 @@ class GetGlonassEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command GetGlonassDoubleParams is deprecated since 21.3. You may use GetGlonassEphDoubleParamForEachSV.
-# 
+#
 # Get GLONASS parameter value for all satellites
 #
 # Name      Type   Description
@@ -16182,16 +16183,16 @@ class GetPerturbationsForAllSatResult(CommandResult):
 # Set (or Modify) event to change GPS CNAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -16199,12 +16200,12 @@ class GetPerturbationsForAllSatResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -16405,16 +16406,16 @@ class GetMessageModificationToGpsCNavResult(CommandResult):
 # Set (or Modify) event to change GPS CNAV-2 message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -16422,12 +16423,12 @@ class GetMessageModificationToGpsCNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -16626,7 +16627,7 @@ class GetMessageModificationToGpsCNav2Result(CommandResult):
 
 #
 # Set (or Modify) event to change GPS LNAV message bits.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # subframes. The Modification parameter is a string where the first character applies to the first
 # bit of subframe word and last character applies to last bit of subframe word.
@@ -16634,12 +16635,12 @@ class GetMessageModificationToGpsCNav2Result(CommandResult):
 #    '1' will for bit to one
 #    'X' will negate bit value
 #    any other byte value will have no effect
-# 
+#
 # Example: "-00------------------1-X------" will force bits 1 and 2 to zero and bit 22 to one
 #                       and negate bit 24
-# 
+#
 # Note: if UpdateParity is true, any modification to bits 25..30 will have no effect.
-# 
+#
 # The ID parameter is automatically updated with a unique ID by the simulator for future reference.
 # If the ID is set with a value other than an empty string, the simulator will try to find a match
 # with previously added events. If there is a match, the event is updated with this message
@@ -16860,13 +16861,13 @@ class GetMessageModificationToGpsLNavResult(CommandResult):
 # Set (or Modify) event to change Galileo C/NAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -16874,12 +16875,12 @@ class GetMessageModificationToGpsLNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -17048,13 +17049,13 @@ class GetMessageModificationToGalileoCNavResult(CommandResult):
 # Set (or Modify) event to change Galileo F/NAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -17062,12 +17063,12 @@ class GetMessageModificationToGalileoCNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -17284,13 +17285,13 @@ class GetMessageModificationToGalileoFNavResult(CommandResult):
 # Set (or Modify) event to change Galileo I/NAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -17298,12 +17299,12 @@ class GetMessageModificationToGalileoFNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -17518,7 +17519,7 @@ class GetMessageModificationToGalileoINavResult(CommandResult):
 
 #
 # Set (or Modify) event to change GLONASS NAV message bits.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # message strings. The Modification parameter is a string where the first character applies to bit
 # 85 of frame string and last character applies to Hamming Code bit 1.
@@ -17527,17 +17528,17 @@ class GetMessageModificationToGalileoINavResult(CommandResult):
 #    'X' will negate bit value
 #    ' ' white space are ignored (use them to separate the string into bytes to help reading)
 #    '-' or any other byte value will have no effect
-# 
+#
 # Example:
-# 
+#
 # "-0--- 1------- -------- -------- -------- -------- -------- -------- -------- -------- ---1--X-"
 #   |  |                                           |  |
 #   |  +- Force bit 80 to '1'               Force Hamming code bit 5 to '1' -+  |
 #   |                                               |
 #   +------ Force bit 84 to 0                   Negate Hamming code bit 2 ----+
-# 
+#
 # Note: if UpdateHammingCode is true, any modification to bits 1..8 will have no effect.
-# 
+#
 # The ID parameter is automatically updated with a unique ID by the simulator for future reference.
 # If the ID is set with a value other than an empty string, the simulator will try to find a match
 # with previously added events. If there is a match, the event is updated with this message
@@ -17740,7 +17741,7 @@ class GetMessageModificationToGlonassNavResult(CommandResult):
 
 #
 # Set (or Modify) event to change BeiDou D1 NAV navigation message bits.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # subframes. The Modification parameter is a string where the first character applies to the first
 # bit of subframe word and last character applies to last bit of subframe word.
@@ -17748,12 +17749,12 @@ class GetMessageModificationToGlonassNavResult(CommandResult):
 #    '1' will for bit to one
 #    'X' will negate bit value
 #    any other byte value will have no effect
-# 
+#
 # Example: "-00------------------1-X------" will force bits 1 and 2 to zero and bit 22 to one
 #                       and negate bit 24
-# 
+#
 # Note: if UpdateParity is true, any modification to parity bits will have no effect.
-# 
+#
 # The ID parameter is automatically updated with a unique ID by the simulator for future reference.
 # If the ID is set with a value other than an empty string, the simulator will try to find a match
 # with previously added events. If there is a match, the event is updated with this message
@@ -17972,7 +17973,7 @@ class GetMessageModificationToBeiDouD1NavResult(CommandResult):
 
 #
 # Set (or Modify) event to change BeiDou D2 NAV message bits.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # subframes. The Modification parameter is a string where the first character applies to the first
 # bit of subframe word and last character applies to last bit of subframe word.
@@ -17980,12 +17981,12 @@ class GetMessageModificationToBeiDouD1NavResult(CommandResult):
 #    '1' will for bit to one
 #    'X' will negate bit value
 #    any other byte value will have no effect
-# 
+#
 # Example: "-00------------------1-X------" will force bits 1 and 2 to zero and bit 22 to one
 #                       and negate bit 24
-# 
+#
 # Note: if UpdateParity is true, any modification to parity bits will have no effect.
-# 
+#
 # The ID parameter is automatically updated with a unique ID by the simulator for future reference.
 # If the ID is set with a value other than an empty string, the simulator will try to find a match
 # with previously added events. If there is a match, the event is updated with this message
@@ -18206,16 +18207,16 @@ class GetMessageModificationToBeiDouD2NavResult(CommandResult):
 # Set (or Modify) event to change BeiDou CNAV1 message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -18223,12 +18224,12 @@ class GetMessageModificationToBeiDouD2NavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -18429,16 +18430,16 @@ class GetMessageModificationToBeiDouCNav1Result(CommandResult):
 # Set (or Modify) event to change BeiDou CNAV2 message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -18446,12 +18447,12 @@ class GetMessageModificationToBeiDouCNav1Result(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -18650,7 +18651,7 @@ class GetMessageModificationToBeiDouCNav2Result(CommandResult):
 
 #
 # Set (or Modify) event to change QZSS LNAV message bits.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # subframes. The Modification parameter is a string where the first character applies to the first
 # bit of subframe word and last character applies to last bit of subframe word.
@@ -18658,12 +18659,12 @@ class GetMessageModificationToBeiDouCNav2Result(CommandResult):
 #    '1' will for bit to one
 #    'X' will negate bit value
 #    any other byte value will have no effect
-# 
+#
 # Example: "-00------------------1-X------" will force bits 1 and 2 to zero and bit 22 to one
 #                       and negate bit 24
-# 
+#
 # Note: if UpdateParity is true, any modification to bits 25..30 will have no effect.
-# 
+#
 # The ID parameter is automatically updated with a unique ID by the simulator for future reference.
 # If the ID is set with a value other than an empty string, the simulator will try to find a match
 # with previously added events. If there is a match, the event is updated with this message
@@ -18884,16 +18885,16 @@ class GetMessageModificationToQzssLNavResult(CommandResult):
 # Set (or Modify) event to change QZSS SLAS message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -18901,12 +18902,12 @@ class GetMessageModificationToQzssLNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -19107,16 +19108,16 @@ class GetMessageModificationToQzssSlasResult(CommandResult):
 # Set (or Modify) event to change QZSS CNAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -19124,12 +19125,12 @@ class GetMessageModificationToQzssSlasResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -19330,16 +19331,16 @@ class GetMessageModificationToQzssCNavResult(CommandResult):
 # Set (or Modify) event to change QZSS CNAV2 message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -19347,12 +19348,12 @@ class GetMessageModificationToQzssCNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -19553,16 +19554,16 @@ class GetMessageModificationToQzssCNav2Result(CommandResult):
 # Set (or Modify) event to change NavIC NAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -19570,12 +19571,12 @@ class GetMessageModificationToQzssCNav2Result(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -19792,16 +19793,16 @@ class GetMessageModificationToNavICNavResult(CommandResult):
 # Set (or Modify) event to change SBAS NAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -19809,12 +19810,12 @@ class GetMessageModificationToNavICNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -20015,16 +20016,16 @@ class GetMessageModificationToSbasNavResult(CommandResult):
 # Set (or Modify) event to change PULSAR NAV message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -20032,12 +20033,12 @@ class GetMessageModificationToSbasNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -20222,16 +20223,16 @@ class GetMessageModificationToPulsarNavResult(CommandResult):
 # Set (or Modify) event to change PULSAR X1 message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -20239,12 +20240,12 @@ class GetMessageModificationToPulsarNavResult(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -20445,16 +20446,16 @@ class GetMessageModificationToPulsarX1Result(CommandResult):
 # Set (or Modify) event to change PULSAR X5 message bits. If you send this command without setting the ID
 # parameter, or if you set the ID with a value never used before, a new Modification event will be
 # created. If you reuse the same event ID, it will modify the existing event.
-# 
+#
 # Note that start and stop time are automatically extended to beginning and ending of overlapped
 # messages.
-# 
+#
 # The Condition parameter is optional and allows you to add content matching condition before applying
 # bit modifications.
-# 
+#
 # BitModifications can be an empty string. The Modification will have no effect until you modify it with at
 # least one bits mod.
-# 
+#
 # A bits mod is represented with a string using the following format: "I:Bits" where I is a bit
 # index (1 refers to the first transmitted bit) and Bits is a modification mask where each
 # character describes a modification to a single bit. The allowed characters are:
@@ -20462,12 +20463,12 @@ class GetMessageModificationToPulsarX1Result(CommandResult):
 #    1 : force bit to 1
 #    - : leave bit unchanged
 #    X : revert bit (0 becomes 1 and 1 becomes 0)
-# 
+#
 # For example: "24:X---10XX" will: revert bits 24, 30 and 31
 #                  set bit 28 to 1
 #                  set bit 29 to 0
 # The other bits are not affected.
-# 
+#
 # You can add multiple bit modifications using commas. For example: "24:X---10XX,127:100X,231:01"
 #
 # Name             Type         Description
@@ -20792,7 +20793,7 @@ class RemoveMessageModificationForSignal(CommandBase):
 
 #
 # Please note the command RemoveMessageModification is deprecated since 21.3. You may use RemoveMessageModificationForSignal.
-# 
+#
 # Removes the signal for the message modification.
 #
 # Name   Type   Description
@@ -20854,7 +20855,7 @@ class ClearAllMessageModificationsForSignal(CommandBase):
 
 #
 # Please note the command ClearAllMessageModifications is deprecated since 21.3. You may use ClearAllMessageModificationsForSignal.
-# 
+#
 # Clear the signal for all message modifications.
 #
 # Name   Type   Description
@@ -21379,7 +21380,7 @@ class RemoveAllInterferences(CommandBase):
 #
 # Set PSR ramp event. This function lets user change the pseudorange of any satellite.
 # If SV ID is set to 0, the change is applied to all satellites.
-# 
+#
 #           Hold Start Time
 #           |         Hold Stop Time
 #           |         |
@@ -21470,7 +21471,7 @@ class SetPseudorangeRampForSV(CommandBase):
 #
 # Get PSR ramp event. This function lets user change the pseudorange of any satellite.
 # If SV ID is set to 0, the change is applied to all satellites.
-# 
+#
 #           Hold Start Time
 #           |         Hold Stop Time
 #           |         |
@@ -21740,7 +21741,7 @@ class RemoveAllPseudorangeRampForSystem(CommandBase):
 
 #
 # Please note the command RemoveAllPseudorangeRamp is deprecated since 21.3. You may use RemoveAllPseudorangeRampForSystem.
-# 
+#
 # Remove all PSR Ramps for all satellites of the specified system.
 #
 # Name   Type   Description
@@ -23554,7 +23555,7 @@ class SetIntTxIgnoreRxAntennaPatterns(CommandBase):
 
 #
 # Please note the command SetIntTxIgnoreVehicleAntennaPattern is deprecated since 20.2. You may use SetIntTxIgnoreRxAntennaPatterns.
-# 
+#
 # Set whether a dynamic transmitter should ignore the vehicle's antenna patterns (gain and phase).
 #
 # Name   Type   Description
@@ -27114,7 +27115,7 @@ class SetSyncTimeMainInstance(CommandBase):
 
 #
 # Please note the command SetSyncTimeMaster is deprecated since 23.11. You may use SetSyncTimeMainInstance.
-# 
+#
 # Set time delay to start streaming after PPS synchronization. A value of 1500
 # means the simulation will start streaming 1.5 sec after the PPS used for
 # synchornization.
@@ -27156,7 +27157,7 @@ class GetSyncTimeMainInstance(CommandBase):
 
 #
 # Please note the command GetSyncTimeMaster is deprecated since 23.11. You may use GetSyncTimeMainInstance.
-# 
+#
 # Get time delay to start streaming after PPS synchronization. A value of 1500
 # means the simulation will start streaming 1.5 sec after the PPS used for
 # synchornization.
@@ -29199,7 +29200,7 @@ class SetPseudorangeNoiseOffsetForEachSV(CommandBase):
 
 #
 # Please note the command SetAllSatellitesPseudorangeNoiseOffset is deprecated since 21.3. You may use SetPseudorangeNoiseOffsetForEachSV.
-# 
+#
 # Set the satellite pseudorange noise constant offset for all satellites.
 #
 # Name    Type         Description
@@ -29263,7 +29264,7 @@ class GetPseudorangeNoiseOffsetForEachSV(CommandBase):
 
 #
 # Please note the command GetAllSatellitesPseudorangeNoiseOffset is deprecated since 21.3. You may use GetPseudorangeNoiseOffsetForEachSV.
-# 
+#
 # Get the satellite pseudorange noise constant offset for all satellites.
 #
 # Name   Type   Description
@@ -29571,7 +29572,7 @@ class SetPseudorangeNoiseSineWaveForEachSV(CommandBase):
 
 #
 # Please note the command SetAllSatellitesPseudorangeNoiseSineWave is deprecated since 21.3. You may use SetPseudorangeNoiseSineWaveForEachSV.
-# 
+#
 # Set the satellite pseudorange noise sine wave attributes for all satellites.
 #
 # Name      Type         Description
@@ -29667,7 +29668,7 @@ class GetPseudorangeNoiseSineWaveForEachSV(CommandBase):
 
 #
 # Please note the command GetAllSatellitesPseudorangeNoiseSineWave is deprecated since 21.3. You may use GetPseudorangeNoiseSineWaveForEachSV.
-# 
+#
 # Get the satellite pseudorange noise sine wave attributes for all satellites.
 #
 # Name     Type   Description
@@ -30007,7 +30008,7 @@ class SetPseudorangeNoiseGaussMarkovForEachSV(CommandBase):
 
 #
 # Please note the command SetAllSatellitesPseudorangeNoiseGaussMarkov is deprecated since 21.3. You may use SetPseudorangeNoiseGaussMarkovForEachSV.
-# 
+#
 # Set the satellite pseudorange noise Gauss-Markov process attributes for all satellites.
 #
 # Name    Type         Description
@@ -30103,7 +30104,7 @@ class GetPseudorangeNoiseGaussMarkovForEachSV(CommandBase):
 
 #
 # Please note the command GetAllSatellitesPseudorangeNoiseGaussMarkov is deprecated since 21.3. You may use GetPseudorangeNoiseGaussMarkovForEachSV.
-# 
+#
 # Get the satellite pseudorange noise Gauss-Markov process attributes for all satellites.
 #
 # Name    Type   Description
@@ -30222,7 +30223,7 @@ class RandomizePseudorangeNoiseGaussMarkovSeedsForAllSV(CommandBase):
 
 #
 # Please note the command RandomizeSeedsForAllSatellitesPseudorangeNoiseGaussMarkov is deprecated since 21.3. You may use RandomizePseudorangeNoiseGaussMarkovSeedsForAllSV.
-# 
+#
 # Generate new seeds for pseudorange noise Gauss-Markov process error on all satellites.
 #
 # Name   Type   Description
@@ -31104,7 +31105,7 @@ class SetQzssUraIndexForSV(CommandBase):
 
 #
 # Please note the command SetQzssUraIndex is deprecated since 21.3. You may use SetQzssUraIndexForSV.
-# 
+#
 # Set the URA index of a QZSS satellite
 #
 # Name        Type            Description
@@ -31184,7 +31185,7 @@ class SetNavICUraIndexForSV(CommandBase):
 
 #
 # Please note the command SetNavICUraIndex is deprecated since 21.3. You may use SetNavICUraIndexForSV.
-# 
+#
 # Set the URA index of a NavIC satellite
 #
 # Name        Type            Description
@@ -36303,7 +36304,7 @@ class GetSVDataUpdateModeResult(CommandResult):
 #   "Accuracy"          meter
 #   "Adot"              meters/sec
 #   "DeltaN0dot"        rad/sec^2
-# 
+#
 # After a block is pushed for a SV, no other block can be pushed for that SV until the interpolation period is over.
 #   Constellation   Interpolation period (sec)
 #   GPS             3600
@@ -37090,9 +37091,9 @@ class GetN310LocalOscillatorSourceResult(CommandResult):
 
 #
 # Set "GPS", "Galileo", "BeiDou", "QZSS", "NavIC" or "PULSAR" constellation parameter value.
-# 
+#
 # General constellation parameters:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "ClockBias"
 #   sec/sec      double   "ClockDrift"
@@ -37105,44 +37106,44 @@ class GetN310LocalOscillatorSourceResult(CommandResult):
 #   sqrt(meter)  double   "SqrtA"  
 #   -            double   "Eccentricity"
 #   -            integer  "Week Number", "Toe", "Transmission Time"
-# 
+#
 # GPS:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd", "IscL1Ca", "IscL2C", "IscL5I5", "IscL5Q5", "IscL1CP", "IscL1CD", "IscL1ME", "IscL2ME", "IscL1MR", "IscL2MR"
 #   sec          integer  "Fit interval"
 #   -            integer  "IODE", "IODC", "UraIndex"
 #   -            boolean  "IscL1CaAvailable", "IscL2CAvailable", "IscL5I5Available", "IscL5Q5Available", "IscL1CPAvailable", "IscL1CDAvailable", "IscL1MEAvailable", "IscL2MEAvailable", "IscL1MRAvailable", "IscL2MRAvailable"
-# 
+#
 # Galileo:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd"
 #   ns           double   "BgdE1E5a", "BgdE1E5b"
 #   -            integer  "SisaE1E5a", "SisaE1E5b", "IODNAV" 
-# 
+#
 # BeiDou:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd1", "Tgd2", "TgdB1Cp", "TgdB2Ap"
 #   -            integer  "IODE", "IODC", "AODE", "AODC"
 #   -            boolean  "IscB1CdAvailable", "IscB2adAvailable"
-# 
+#
 # QZSS:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd", "IscL1Ca", "IscL2C", "IscL5I5", "IscL5Q5", "IscL1CP", "IscL1CD"
 #   sec          integer  "Fit interval"
 #   -            integer  "IODE", "IODC", "UraIndex"
 #   -            boolean  "IscL1CaAvailable", "IscL2CAvailable", "IscL5I5Available", "IscL5Q5Available", "IscL1CPAvailable", "IscL1CDAvailable"
-# 
+#
 # NavIC:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd", "IscS", "IscL1P", "IscL1D"
 #   -            integer  "IODEC", "UraIndex"
 #   -            boolean  "IscSAvailable", "IscL1PAvailable", "IscL1DAvailable"
-# 
+#
 #
 # Name        Type                  Description
 # ----------- --------------------- -------------------------------------------------------------------------------------------
@@ -37198,9 +37199,9 @@ class SetConstellationParameterForSV(CommandBase):
 
 #
 # Get "GPS", "Galileo", "BeiDou", "QZSS", "NavIC" or "PULSAR" constellation parameter value.
-# 
+#
 # General constellation parameters:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "ClockBias"
 #   sec/sec      double   "ClockDrift"
@@ -37213,44 +37214,44 @@ class SetConstellationParameterForSV(CommandBase):
 #   sqrt(meter)  double   "SqrtA"  
 #   -            double   "Eccentricity"
 #   -            integer  "Week Number", "Toe", "Transmission Time"
-# 
+#
 # GPS:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd", "IscL1Ca", "IscL2C", "IscL5I5", "IscL5Q5", "IscL1CP", "IscL1CD", "IscL1ME", "IscL2ME", "IscL1MR", "IscL2MR"
 #   sec          integer  "Fit interval"
 #   -            integer  "IODE", "IODC", "UraIndex"
 #   -            boolean  "IscL1CaAvailable", "IscL2CAvailable", "IscL5I5Available", "IscL5Q5Available", "IscL1CPAvailable", "IscL1CDAvailable", "IscL1MEAvailable", "IscL2MEAvailable", "IscL1MRAvailable", "IscL2MRAvailable"
-# 
+#
 # Galileo:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd"
 #   ns           double   "BgdE1E5a", "BgdE1E5b"
 #   -            integer  "SisaE1E5a", "SisaE1E5b", "IODNAV" 
-# 
+#
 # BeiDou:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd1", "Tgd2", "TgdB1Cp", "TgdB2Ap"
 #   -            integer  "IODE", "IODC", "AODE", "AODC"
 #   -            boolean  "IscB1CdAvailable", "IscB2adAvailable"
-# 
+#
 # QZSS:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd", "IscL1Ca", "IscL2C", "IscL5I5", "IscL5Q5", "IscL1CP", "IscL1CD"
 #   sec          integer  "Fit interval"
 #   -            integer  "IODE", "IODC", "UraIndex"
 #   -            boolean  "IscL1CaAvailable", "IscL2CAvailable", "IscL5I5Available", "IscL5Q5Available", "IscL1CPAvailable", "IscL1CDAvailable"
-# 
+#
 # NavIC:
-# 
+#
 #   Unit         Type     ParamName
 #   sec          double   "Tgd", "IscS", "IscL1P", "IscL1D"
 #   -            integer  "IODEC", "UraIndex"
 #   -            boolean  "IscSAvailable", "IscL1PAvailable", "IscL1DAvailable"
-# 
+#
 #
 # Name        Type            Description
 # ----------- --------------- -------------------------------------------------------------------------------------------
@@ -39105,7 +39106,7 @@ class GetModulationTargetIQPlaybackResult(CommandResult):
 
 #
 # Please note the command GetMasterStatus is deprecated since 23.11. You may use GetMainInstanceStatus.
-# 
+#
 # Request for the master status, returns a GetMasterStatusResult
 #
 #
@@ -39162,7 +39163,7 @@ class GetMasterStatusResult(CommandResult):
 
 #
 # Please note the command GetSlaveStatus is deprecated since 23.11. You may use GetWorkerInstanceStatus.
-# 
+#
 # Request for the slave status, returns a GetSlaveStatusResult
 #
 #
@@ -39227,7 +39228,7 @@ class GetSlaveStatusResult(CommandResult):
 
 #
 # Please note the command StopMasterWhenSlaveStop is deprecated since 23.11. You may use StopMainInstanceWhenWorkerInstanceStop.
-# 
+#
 # If enabled, master and all the slaves will stop if a slave stop.
 #
 # Name    Type Description
@@ -39255,7 +39256,7 @@ class StopMasterWhenSlaveStop(CommandBase):
 
 #
 # Please note the command IsStopMasterWhenSlaveStop is deprecated since 23.11. You may use IsStopMainInstanceWhenWorkerInstanceStop.
-# 
+#
 # If enabled, master and all the slaves will stop if a slave stop.
 #
 #
@@ -39296,9 +39297,9 @@ class IsStopMasterWhenSlaveStopResult(CommandResult):
 
 #
 # Please note the command SetGpsEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the GPS ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -39378,9 +39379,9 @@ class SetGpsEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command GetGpsEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the GPS ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -39499,9 +39500,9 @@ class GetGpsEphDoubleParamForSVResult(CommandResult):
 
 #
 # Please note the command SetGalileoEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the Galileo ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -39577,9 +39578,9 @@ class SetGalileoEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command GetGalileoEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the Galileo ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -39694,9 +39695,9 @@ class GetGalileoEphDoubleParamForSVResult(CommandResult):
 
 #
 # Please note the command SetBeiDouEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the BeiDou ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -39773,9 +39774,9 @@ class SetBeiDouEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command GetBeiDouEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the BeiDou ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -39891,7 +39892,7 @@ class GetBeiDouEphDoubleParamForSVResult(CommandResult):
 
 #
 # Please note the command SetQzssEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the QZSS ephemeris.
 #
 # Name        Type            Description
@@ -39945,9 +39946,9 @@ class SetQzssEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command SetQzssEphemerisDoubleParam is deprecated since 21.3. You may use SetQzssEphDoubleParamForSV.
-# 
+#
 # Please note the command SetQzssEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the QZSS ephemeris.
 #
 # Name        Type            Description
@@ -40001,7 +40002,7 @@ class SetQzssEphemerisDoubleParam(CommandBase):
 
 #
 # Please note the command GetQzssEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the QZSS ephemeris.
 #
 # Name        Type            Description
@@ -40047,9 +40048,9 @@ class GetQzssEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command GetQzssEphemerisDoubleParam is deprecated since 21.3. You may use GetQzssEphDoubleParamForSV.
-# 
+#
 # Please note the command GetQzssEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the QZSS ephemeris.
 #
 # Name        Type            Description
@@ -40144,9 +40145,9 @@ class GetQzssEphDoubleParamForSVResult(CommandResult):
 
 #
 # Please note the command SetNavICEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the NavIC ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -40220,11 +40221,11 @@ class SetNavICEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command SetNavICEphemerisDoubleParam is deprecated since 21.3. You may use SetNavICEphDoubleParamForSV.
-# 
+#
 # Please note the command SetNavICEphDoubleParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various parameters in the NavIC ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -40298,9 +40299,9 @@ class SetNavICEphemerisDoubleParam(CommandBase):
 
 #
 # Please note the command GetNavICEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the NavIC ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -40366,11 +40367,11 @@ class GetNavICEphDoubleParamForSV(CommandBase):
 
 #
 # Please note the command GetNavICEphemerisDoubleParam is deprecated since 21.3. You may use GetNavICEphDoubleParamForSV.
-# 
+#
 # Please note the command GetNavICEphDoubleParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various parameters in the NavIC ephemeris
-# 
+#
 #   ParamName         Unit
 #   "ClockBias"       sec
 #   "ClockDrift"      sec/sec
@@ -40483,7 +40484,7 @@ class GetNavICEphDoubleParamForSVResult(CommandResult):
 
 #
 # Please note the command SetGpsEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set GPS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40527,9 +40528,9 @@ class SetGpsEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command SetGpsEphemerisDoubleParams is deprecated since 21.3. You may use SetGpsEphDoubleParamForEachSV.
-# 
+#
 # Please note the command SetGpsEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set GPS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40573,7 +40574,7 @@ class SetGpsEphemerisDoubleParams(CommandBase):
 
 #
 # Please note the command GetGpsEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get GPS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40609,9 +40610,9 @@ class GetGpsEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command GetGpsEphemerisDoubleParams is deprecated since 21.3. You may use GetGpsEphDoubleParamForEachSV.
-# 
+#
 # Please note the command GetGpsEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get GPS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40686,7 +40687,7 @@ class GetGpsEphDoubleParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetGalileoEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set Galileo ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40730,9 +40731,9 @@ class SetGalileoEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command SetGalileoEphemerisDoubleParams is deprecated since 21.3. You may use SetGalileoEphDoubleParamForEachSV.
-# 
+#
 # Please note the command SetGalileoEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set Galileo ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40776,7 +40777,7 @@ class SetGalileoEphemerisDoubleParams(CommandBase):
 
 #
 # Please note the command GetGalileoEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get Galileo ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40812,9 +40813,9 @@ class GetGalileoEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command GetGalileoEphemerisDoubleParams is deprecated since 21.3. You may use GetGalileoEphDoubleParamForEachSV.
-# 
+#
 # Please note the command GetGalileoEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get Galileo ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40889,7 +40890,7 @@ class GetGalileoEphDoubleParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetBeiDouEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set BeiDou ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40933,9 +40934,9 @@ class SetBeiDouEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command SetBeiDouEphemerisDoubleParams is deprecated since 21.3. You may use SetBeiDouEphDoubleParamForEachSV.
-# 
+#
 # Please note the command SetBeiDouEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set BeiDou ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -40979,7 +40980,7 @@ class SetBeiDouEphemerisDoubleParams(CommandBase):
 
 #
 # Please note the command GetBeiDouEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get BeiDou ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41015,9 +41016,9 @@ class GetBeiDouEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command GetBeiDouEphemerisDoubleParams is deprecated since 21.3. You may use GetBeiDouEphDoubleParamForEachSV.
-# 
+#
 # Please note the command GetBeiDouEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get BeiDou ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41092,7 +41093,7 @@ class GetBeiDouEphDoubleParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetQzssEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set QZSS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41136,9 +41137,9 @@ class SetQzssEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command SetQzssEphemerisDoubleParams is deprecated since 21.3. You may use SetQzssEphDoubleParamForEachSV.
-# 
+#
 # Please note the command SetQzssEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set QZSS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41182,7 +41183,7 @@ class SetQzssEphemerisDoubleParams(CommandBase):
 
 #
 # Please note the command GetQzssEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get QZSS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41218,9 +41219,9 @@ class GetQzssEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command GetQzssEphemerisDoubleParams is deprecated since 21.3. You may use GetQzssEphDoubleParamForEachSV.
-# 
+#
 # Please note the command GetQzssEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get QZSS ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41295,7 +41296,7 @@ class GetQzssEphDoubleParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetNavICEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set NavIC ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41339,9 +41340,9 @@ class SetNavICEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command SetNavICEphemerisDoubleParams is deprecated since 21.3. You may use SetNavICEphDoubleParamForEachSV.
-# 
+#
 # Please note the command SetNavICEphDoubleParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set NavIC ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41385,7 +41386,7 @@ class SetNavICEphemerisDoubleParams(CommandBase):
 
 #
 # Please note the command GetNavICEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get NavIC ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41421,9 +41422,9 @@ class GetNavICEphDoubleParamForEachSV(CommandBase):
 
 #
 # Please note the command GetNavICEphemerisDoubleParams is deprecated since 21.3. You may use GetNavICEphDoubleParamForEachSV.
-# 
+#
 # Please note the command GetNavICEphDoubleParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get NavIC ephemeris parameter value for all satellites
 #
 # Name        Type            Description
@@ -41498,9 +41499,9 @@ class GetNavICEphDoubleParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetGpsEphBoolParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various boolean parameters in the GPS ephemeris
-# 
+#
 #   ParamName
 # "IscL1CaAvailable"
 # "IscL2CAvailable"
@@ -41558,9 +41559,9 @@ class SetGpsEphBoolParamForSV(CommandBase):
 
 #
 # Please note the command GetGpsEphBoolParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various boolean parameters in the GPS ephemeris
-# 
+#
 #   ParamName
 # "IscL1CaAvailable"
 # "IscL2CAvailable"
@@ -41657,7 +41658,7 @@ class GetGpsEphBoolParamForSVResult(CommandResult):
 
 #
 # Please note the command SetGpsEphBoolParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set GPS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -41701,9 +41702,9 @@ class SetGpsEphBoolParamForEachSV(CommandBase):
 
 #
 # Please note the command SetGpsEphemerisBoolParams is deprecated since 21.3. You may use SetGpsEphBoolParamForEachSV.
-# 
+#
 # Please note the command SetGpsEphBoolParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set GPS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -41747,7 +41748,7 @@ class SetGpsEphemerisBoolParams(CommandBase):
 
 #
 # Please note the command GetGpsEphBoolParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get GPS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -41783,9 +41784,9 @@ class GetGpsEphBoolParamForEachSV(CommandBase):
 
 #
 # Please note the command GetGpsEphemerisBoolParams is deprecated since 21.3. You may use GetGpsEphBoolParamForEachSV.
-# 
+#
 # Please note the command GetGpsEphBoolParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get GPS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -41860,9 +41861,9 @@ class GetGpsEphBoolParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetBeiDouEphBoolParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various boolean parameters in the BeiDou ephemeris
-# 
+#
 #   ParamName
 # "IscB1CdAvailable"
 # "IscB2adAvailable"
@@ -41916,9 +41917,9 @@ class SetBeiDouEphBoolParamForSV(CommandBase):
 
 #
 # Please note the command GetBeiDouEphBoolParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various boolean parameters in the BeiDou ephemeris
-# 
+#
 #   ParamName
 # "IscB1CdAvailable"
 # "IscB2adAvailable"
@@ -42011,7 +42012,7 @@ class GetBeiDouEphBoolParamForSVResult(CommandResult):
 
 #
 # Please note the command SetBeiDouEphBoolParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set BeiDou ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42055,9 +42056,9 @@ class SetBeiDouEphBoolParamForEachSV(CommandBase):
 
 #
 # Please note the command SetBeiDouEphemerisBoolParams is deprecated since 21.3. You may use SetBeiDouEphBoolParamForEachSV.
-# 
+#
 # Please note the command SetBeiDouEphBoolParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set BeiDou ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42101,7 +42102,7 @@ class SetBeiDouEphemerisBoolParams(CommandBase):
 
 #
 # Please note the command GetBeiDouEphBoolParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get BeiDou ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42137,9 +42138,9 @@ class GetBeiDouEphBoolParamForEachSV(CommandBase):
 
 #
 # Please note the command GetBeiDouEphemerisBoolParams is deprecated since 21.3. You may use GetBeiDouEphBoolParamForEachSV.
-# 
+#
 # Please note the command GetBeiDouEphBoolParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get BeiDou ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42214,9 +42215,9 @@ class GetBeiDouEphBoolParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetQzssEphBoolParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various boolean parameters in the QZSS ephemeris
-# 
+#
 #   ParamName
 # "IscL1CaAvailable"
 # "IscL2CAvailable"
@@ -42274,11 +42275,11 @@ class SetQzssEphBoolParamForSV(CommandBase):
 
 #
 # Please note the command SetQzssEphemerisBoolParam is deprecated since 21.3. You may use SetQzssEphBoolParamForSV.
-# 
+#
 # Please note the command SetQzssEphBoolParamForSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set various boolean parameters in the QZSS ephemeris
-# 
+#
 #   ParamName
 # "IscL1CaAvailable"
 # "IscL2CAvailable"
@@ -42336,9 +42337,9 @@ class SetQzssEphemerisBoolParam(CommandBase):
 
 #
 # Please note the command GetQzssEphBoolParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various boolean parameters in the QZSS ephemeris
-# 
+#
 #   ParamName
 # "IscL1CaAvailable"
 # "IscL2CAvailable"
@@ -42388,11 +42389,11 @@ class GetQzssEphBoolParamForSV(CommandBase):
 
 #
 # Please note the command GetQzssEphemerisBoolParam is deprecated since 21.3. You may use GetQzssEphBoolParamForSV.
-# 
+#
 # Please note the command GetQzssEphBoolParamForSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get various boolean parameters in the QZSS ephemeris
-# 
+#
 #   ParamName
 # "IscL1CaAvailable"
 # "IscL2CAvailable"
@@ -42489,7 +42490,7 @@ class GetQzssEphBoolParamForSVResult(CommandResult):
 
 #
 # Please note the command SetQzssEphBoolParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set QZSS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42533,9 +42534,9 @@ class SetQzssEphBoolParamForEachSV(CommandBase):
 
 #
 # Please note the command SetQzssEphemerisBoolParams is deprecated since 21.3. You may use SetQzssEphBoolParamForEachSV.
-# 
+#
 # Please note the command SetQzssEphBoolParamForEachSV is deprecated since 23.11. You may use SetConstellationParameterForSV.
-# 
+#
 # Set QZSS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42579,7 +42580,7 @@ class SetQzssEphemerisBoolParams(CommandBase):
 
 #
 # Please note the command GetQzssEphBoolParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get QZSS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42615,9 +42616,9 @@ class GetQzssEphBoolParamForEachSV(CommandBase):
 
 #
 # Please note the command GetQzssEphemerisBoolParams is deprecated since 21.3. You may use GetQzssEphBoolParamForEachSV.
-# 
+#
 # Please note the command GetQzssEphBoolParamForEachSV is deprecated since 23.11. You may use GetConstellationParameterForSV.
-# 
+#
 # Get QZSS ephemeris boolean parameter value for all satellites
 #
 # Name        Type            Description
@@ -42692,7 +42693,7 @@ class GetQzssEphBoolParamForEachSVResult(CommandResult):
 
 #
 # Please note the command SetWFAntennaElementOffset is deprecated since 23.11. You may use SetVehicleAntennaOffset.
-# 
+#
 # Set WF antenna offset and orientation relative to CRPA Antenna frame for the specified element index.
 #
 # Name    Type   Description
@@ -42768,7 +42769,7 @@ class SetWFAntennaElementOffset(CommandBase):
 
 #
 # Please note the command GetWFAntennaElementOffset is deprecated since 23.11. You may use GetVehicleAntennaOffset.
-# 
+#
 # Get the WF antenna offset infos for this element.
 #
 # Name    Type Description
@@ -42867,7 +42868,7 @@ class GetWFAntennaElementOffsetResult(CommandResult):
 
 #
 # Please note the command SetWFAntennaElementPhasePatternOffset is deprecated since 23.11. You may use AddVehiclePhasePatternOffset.
-# 
+#
 # Set WF Antenna phase pattern offset (in rad) for this element
 #
 # Name        Type   Description
@@ -42903,7 +42904,7 @@ class SetWFAntennaElementPhasePatternOffset(CommandBase):
 
 #
 # Please note the command GetWFAntennaElementPhasePatternOffset is deprecated since 23.11. You may use GetVehiclePhasePatternOffset.
-# 
+#
 # Get WF Antenna phase pattern offset (in rad) for this element
 #
 # Name    Type Description
@@ -42962,7 +42963,7 @@ class GetWFAntennaElementPhasePatternOffsetResult(CommandResult):
 
 #
 # Please note the command SetWFAntennaElementModel is deprecated since 23.11. You may use SetWFElement.
-# 
+#
 # Set WF Antenna model for this element
 #
 # Name             Type   Description
@@ -42998,7 +42999,7 @@ class SetWFAntennaElementModel(CommandBase):
 
 #
 # Please note the command GetWFAntennaElementModel is deprecated since 23.11. You may use GetWFElement.
-# 
+#
 # Get WF Antenna model for this element
 #
 # Name    Type Description
@@ -43057,7 +43058,7 @@ class GetWFAntennaElementModelResult(CommandResult):
 
 #
 # Please note the command SetWFAntennaElementEnabled is deprecated since 23.11. You may use SetWFElement.
-# 
+#
 # Set WF antenna element enabled or disabled. A disabled antenna element is not simulated at all.
 #
 # Name    Type Description
@@ -43093,7 +43094,7 @@ class SetWFAntennaElementEnabled(CommandBase):
 
 #
 # Please note the command IsWFAntennaElementEnabled is deprecated since 23.11. You may use GetWFElement.
-# 
+#
 # Get whether an antenna element is enabled or disabled.
 #
 # Name    Type Description
@@ -43152,7 +43153,7 @@ class IsWFAntennaElementEnabledResult(CommandResult):
 
 #
 # Please note the command SetWFAntennaGain is deprecated since 25.4. You may use SetWFElement.
-# 
+#
 # Set The CRPA LNA gain
 #
 # Name Type Description
@@ -43180,7 +43181,7 @@ class SetWFAntennaGain(CommandBase):
 
 #
 # Please note the command GetWFAntennaGain is deprecated since 25.4. You may use GetWFElement.
-# 
+#
 # Get The CRPA LNA gain
 #
 #

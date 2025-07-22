@@ -9,7 +9,7 @@ from .commandexception import CommandException
 from .commands import *
 
 
-def spooferInstance(id):
+def spooferInstance(id: int) -> int:
     return 128 + id
 
 
@@ -20,14 +20,14 @@ class DeprecatedMessageMode(Enum):
 
 
 class RemoteSimulator:
-    def __init__(self, exception_on_error=True):
+    def __init__(self, exception_on_error: bool = True) -> None:
         self.exception_on_error = exception_on_error
-        self.client = None
+        self.client: Optional[ClientCmd] = None
         self.verbose = False
         self.hilStreamingCheckEnabled = True
-        self.hil = None
+        self.hil: Optional[ClientHil] = None
         self._last_vehicle_info = None
-        self.checkRunningTime = 0
+        self.checkRunningTime = 0.0
         self.beginRoute = False
         self.beginTrack = False
         self.beginIntTxTrack = {}
@@ -35,7 +35,9 @@ class RemoteSimulator:
         self.deprecatedMessageMode = DeprecatedMessageMode.LATCH
         self.latchDeprecated = set()
 
-    def connect(self, ip="localhost", id=0, failIfApiVersionMismatch=False):
+    def connect(
+        self, ip: str = "localhost", id: int = 0, failIfApiVersionMismatch: bool = False
+    ) -> None:
         if self.isConnected():
             raise Exception("Cannot connect. Already connected. Disconnect first.")
 
@@ -61,7 +63,7 @@ class RemoteSimulator:
         hilPort = self._callCommand(GetHilPort()).port()
         self.hil = ClientHil(self.client.getAddress(), hilPort)
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         self._checkConnect()
         if self.verbose:
             print("Commands Client Disconnecting")
@@ -70,25 +72,25 @@ class RemoteSimulator:
         del self.hil
         self.hil = None
 
-    def setVerbose(self, verbose):
+    def setVerbose(self, verbose: bool) -> None:
         self.verbose = verbose
 
-    def isVerbose(self):
+    def isVerbose(self) -> bool:
         return self.verbose
 
-    def setHilStreamingCheckEnabled(self, hilStreamingCheckEnabled):
+    def setHilStreamingCheckEnabled(self, hilStreamingCheckEnabled: bool) -> None:
         self.hilStreamingCheckEnabled = hilStreamingCheckEnabled
 
-    def isHilStreamingCheckEnabled(self):
+    def isHilStreamingCheckEnabled(self) -> bool:
         return self.hilStreamingCheckEnabled
 
-    def isConnected(self):
+    def isConnected(self) -> bool:
         return self.client != None
 
-    def clientApiVersion(self):
+    def clientApiVersion(self) -> int:
         return ApiVersion
 
-    def serverApiVersion(self):
+    def serverApiVersion(self) -> int:
         if self.isConnected():
             return self._serverApiVersion
         else:
@@ -96,7 +98,7 @@ class RemoteSimulator:
                 "Server API Version unavailable. You must be connected to the server."
             )
 
-    def _handleException(self, result):
+    def _handleException(self, result: CommandResult) -> None:
         if self.exception_on_error and not result.isSuccess():
             stateResult = self._callCommand(GetSimulatorState())
 
@@ -113,10 +115,10 @@ class RemoteSimulator:
                 result.getRelatedCommand().getName() + " failed: " + result.getMessage()
             )
 
-    def _resetTime(self):
+    def _resetTime(self) -> None:
         self.checkRunningTime = -99999999.9
 
-    def arm(self):
+    def arm(self) -> bool:
         self._checkConnect()
         if self.verbose:
             print("Arming simulation...")
@@ -130,7 +132,7 @@ class RemoteSimulator:
             print("Simulation armed.")
         return True
 
-    def start(self):
+    def start(self) -> bool:
         self._checkConnect()
         if self.verbose:
             print("Starting simulation...")
@@ -166,13 +168,13 @@ class RemoteSimulator:
         if self.verbose:
             print("Simulation stopped.")
 
-    def _checkForbiddenPost(self, cmd):
+    def _checkForbiddenPost(self, cmd: CommandBase) -> None:
         if cmd.getName() == "Start":
             raise Exception(
                 "You cannot send a Start command. Use RemoteSimulator.start() instead."
             )
 
-    def _checkForbiddenCall(self, cmd):
+    def _checkForbiddenCall(self, cmd: CommandBase) -> None:
         if cmd.getName() == "Start":
             raise Exception(
                 "You cannot send a Start command. Use RemoteSimulator.start() instead."
@@ -198,7 +200,7 @@ class RemoteSimulator:
                 "You cannot call a PushIntTxTrackEcefNed command. Post it or use RemoteSimulator.pushIntTxTrackEcefNed() or RemoteSimulator.pushIntTxTrackLlaNed() instead."
             )
 
-    def checkIfStreaming(self):
+    def checkIfStreaming(self) -> bool:
         self._checkConnect()
 
         stateResult = self._callCommand(GetSimulatorState())
@@ -520,11 +522,11 @@ class RemoteSimulator:
 
         return trackResult.count()
 
-    def _callCommand(self, cmd, timestamp=None):
+    def _callCommand(self, cmd: CommandBase, timestamp=None) -> CommandResult:
         self._postCommand(cmd, timestamp)
         return self._waitCommand(cmd)
 
-    def _postCommand(self, cmd, timestamp=None):
+    def _postCommand(self, cmd: CommandBase, timestamp=None) -> CommandBase:
         deprecated = cmd.deprecated()
         if deprecated and (
             self.deprecatedMessageMode == DeprecatedMessageMode.ALL
@@ -540,12 +542,12 @@ class RemoteSimulator:
         self.client.sendCommand(cmd)
         return cmd
 
-    def _waitCommand(self, cmd):
+    def _waitCommand(self, cmd: CommandBase) -> CommandResult:
         result = self.client.waitCommand(cmd)
         self._handleException(result)
         return result
 
-    def post(self, cmd, timestamp=None):
+    def post(self, cmd: CommandBase, timestamp=None) -> CommandBase:
         self._checkConnect()
         self._checkForbiddenPost(cmd)
         if self.verbose:
@@ -553,7 +555,7 @@ class RemoteSimulator:
         self._postCommand(cmd, timestamp)
         return cmd
 
-    def wait(self, cmd):
+    def wait(self, cmd: CommandBase) -> CommandResult:
         self._checkConnect()
         if self.verbose:
             sys.stdout.write("Wait " + cmd.toString())
@@ -563,7 +565,7 @@ class RemoteSimulator:
             print(" => " + result.getMessage())
         return result
 
-    def call(self, cmd, timestamp=None):
+    def call(self, cmd: CommandBase, timestamp=None) -> CommandResult:
         self._checkConnect()
         self._checkForbiddenCall(cmd)
         self._postCommand(cmd, timestamp)
@@ -576,13 +578,13 @@ class RemoteSimulator:
             print(" => " + result.getMessage())
         return result
 
-    def beginVehicleInfo(self):
+    def beginVehicleInfo(self) -> CommandResult:
         return self.call(BeginVehicleInfo())
 
-    def endVehicleInfo(self):
+    def endVehicleInfo(self) -> CommandResult:
         return self.call(EndVehicleInfo())
 
-    def hasVehicleInfo(self):
+    def hasVehicleInfo(self) -> bool:
         pos = self.hil.pollVehicleInfo()
         if pos is not None:
             self._last_vehicle_info = pos
@@ -601,11 +603,13 @@ class RemoteSimulator:
             pass
         return self.nextVehicleInfo()
 
-    def setDeprecatedMessageMode(self, mode):
+    def setDeprecatedMessageMode(self, mode) -> None:
         self.deprecatedMessageMode = mode
         self.latchDeprecated.clear()
 
 
 class RemoteSpooferSimulator(RemoteSimulator):
-    def connect(self, ip="localhost", id=1, failIfApiVersionMismatch=False):
+    def connect(
+        self, ip: str = "localhost", id: int = 1, failIfApiVersionMismatch: bool = False
+    ) -> None:
         RemoteSimulator.connect(self, ip, spooferInstance(id), failIfApiVersionMismatch)

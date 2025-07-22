@@ -33,7 +33,8 @@ class CommandResult(CommandBase):
     def setRelatedCommand(self, cmd: CommandBase) -> None:
         self.command = cmd
 
-    def getRelatedCommand(self) -> Optional[CommandBase]:
+    def getRelatedCommand(self) -> CommandBase:
+        self.command = cast(CommandBase, self.command)
         return self.command
 
     def toString(self) -> str:

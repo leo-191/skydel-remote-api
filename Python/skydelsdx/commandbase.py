@@ -98,8 +98,7 @@ class CommandBase:
     def executePermission(self) -> "ExecutePermission":
         return ExecutePermission.EXECUTE_IF_IDLE
 
-    # TODO: unknown flags
-    def hasExecutePermission(self, flags) -> bool:
+    def hasExecutePermission(self, flags: int) -> bool:
         return (self.executePermission() & flags) == flags
 
     def setTimestamp(self, timestamp):

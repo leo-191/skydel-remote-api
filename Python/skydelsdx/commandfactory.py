@@ -40,8 +40,7 @@ def createCommand(jsonStr: str) -> CommandBase:
     return command
 
 
-def createCommandResult(jsonStr) -> CommandResult:
-    # TODO: what type if jsonStr? str or byte?
+def createCommandResult(jsonStr: bytes) -> CommandResult:
     type(jsonStr)
     commandResult = createCommand(jsonStr.decode("UTF-8"))
     commandResult = cast(CommandResult, commandResult)
